@@ -1,0 +1,349 @@
+/* 
+ * Vital Curator - Custom Styles
+ * 
+ * Table of Contents:
+ * 1. CSS Variables
+ * 2. Base Components
+ * 3. Layout
+ * 4. Cards
+ * 5. Forms
+ * 6. Feature Comparison
+ * 7. Audio Player
+ * 8. Utilities
+ */
+
+/* ------------------------------
+ * 1. CSS Variables
+ * ------------------------------ */
+:root {
+    /* Theme colors */
+    --primary-color: var(--bs-primary);
+    --secondary-color: var(--bs-secondary);
+    --success-color: var(--bs-success);
+    --danger-color: var(--bs-danger);
+    --dark-color: var(--bs-dark);
+    --light-color: var(--bs-light);
+    --border-color: var(--bs-border-color);
+    --text-muted: var(--bs-gray-500);
+    
+    /* Component sizes */
+    --bar-height: 10px;
+    --feature-icon-size: 14px;
+    --header-icon-size: 48px;
+    --border-radius-sm: 4px;
+    --border-radius: 8px;
+    
+    /* Spacing */
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 1rem;
+    --spacing-lg: 1.5rem;
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-medium: 0.3s ease;
+    
+    /* Font sizes */
+    --font-size-xs: 0.75rem;
+    --font-size-sm: 0.85rem;
+    --font-size-md: 1rem;
+}
+
+/* ------------------------------
+ * 2. Base Components
+ * ------------------------------ */
+.card {
+    border: 1px solid var(--border-color);
+    background-color: var(--dark-color);
+    transition: border-color var(--transition-fast);
+}
+
+.card:hover {
+    border-color: var(--border-color);
+}
+
+.progress {
+    height: 0.5rem;
+    background-color: var(--dark-color);
+}
+
+/* ------------------------------
+ * 3. Layout
+ * ------------------------------ */
+#results .card {
+    margin-bottom: 0.5rem;
+    transition: transform var(--transition-fast);
+}
+
+#results .card:hover {
+    transform: translateY(-2px);
+}
+
+#results .card-body {
+    padding: var(--spacing-md);
+}
+
+#results .card-title {
+    font-size: var(--font-size-md);
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+    word-break: break-word;
+}
+
+#results .card-text {
+    font-size: var(--font-size-sm);
+    margin-bottom: var(--spacing-sm);
+}
+
+/* Loading and reranking state */
+#results.reranking {
+    opacity: 0.7;
+    transition: opacity var(--transition-medium);
+}
+
+/* ------------------------------
+ * 4. Forms
+ * ------------------------------ */
+.form-range::-webkit-slider-thumb {
+    background: var(--primary-color);
+}
+
+.form-range::-moz-range-thumb {
+    background: var(--primary-color);
+}
+
+.form-control {
+    background-color: var(--dark-color);
+    border-color: var(--border-color);
+}
+
+.form-control:focus {
+    background-color: var(--dark-color);
+    border-color: var(--primary-color);
+}
+
+/* ------------------------------
+ * 5. Feature Comparison
+ * ------------------------------ */
+.feature-comparison {
+    border-top: 1px solid var(--border-color);
+    padding-top: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+    font-size: var(--font-size-sm);
+}
+
+/* Feature bars */
+.feature-bar-container {
+    margin-bottom: var(--spacing-sm);
+}
+
+.feature-label {
+    font-size: var(--font-size-xs);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.bar-wrapper {
+    height: var(--bar-height);
+    background-color: var(--dark-color);
+    border-radius: var(--border-radius-sm);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    position: relative;
+    min-height: var(--bar-height);
+    margin: 4px 0;
+}
+
+/* Center line for feature bars */
+.bar-wrapper::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background-color: var(--bs-gray-600);
+    z-index: 1;
+}
+
+.progress-bar {
+    height: 100%;
+    transition: width var(--transition-medium);
+    border-radius: 2px;
+}
+
+.delta-value {
+    font-size: var(--font-size-xs);
+    color: var(--text-muted);
+}
+
+/* Weight indicators */
+.weight-indicator {
+    font-size: var(--font-size-xs);
+    padding: 0.1rem 0.3rem;
+    border-radius: 3px;
+    margin-left: var(--spacing-xs);
+    font-weight: bold;
+}
+
+.weight-positive {
+    color: var(--success-color);
+    border: 1px solid var(--success-color);
+}
+
+.weight-negative {
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+}
+
+/* Weighted bar emphasis */
+.bar-wrapper.weighted {
+    border-width: 2px;
+    z-index: 2;
+}
+
+.bar-wrapper.weight-positive {
+    border-color: var(--success-color);
+}
+
+.bar-wrapper.weight-negative {
+    border-color: var(--danger-color);
+}
+
+/* Subtle glow for weighted bars */
+.bar-wrapper.weighted .progress-bar {
+    box-shadow: 0 0 5px rgba(var(--bs-success-rgb), 0.3);
+}
+
+.bar-wrapper.weight-negative .progress-bar {
+    box-shadow: 0 0 5px rgba(var(--bs-danger-rgb), 0.3);
+}
+
+/* ------------------------------
+ * 6. Audio Player
+ * ------------------------------ */
+.custom-audio-player {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Play button styles */
+.custom-play-button {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    flex-shrink: 0;
+    transition: all var(--transition-fast);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    z-index: 10;
+}
+
+.custom-play-button:hover {
+    transform: scale(1.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.custom-play-button:active {
+    transform: scale(0.95);
+}
+
+.custom-play-button i {
+    width: 16px;
+    height: 16px;
+}
+
+/* Playing state */
+.playing .custom-play-button {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+}
+
+.playing .custom-play-button:hover {
+    background-color: var(--danger-color);
+    border-color: var(--danger-color);
+    opacity: 0.9;
+}
+
+/* Special styling for the main audio player */
+.selected-player .custom-play-button {
+    width: 38px;
+    height: 38px;
+}
+
+/* Audio selection container */
+.audio-selection-container .input-group {
+    display: flex;
+    align-items: stretch;
+}
+
+.audio-selection-container .input-group-append {
+    display: flex;
+    margin-left: -1px;
+}
+
+.audio-selection-container .custom-audio-player {
+    height: 100%;
+    margin-left: var(--spacing-sm);
+}
+
+/* Make the play button look integrated with the select */
+.audio-selection-container .custom-play-button {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    height: 100%;
+}
+
+/* ------------------------------
+ * 7. Icon sizing
+ * ------------------------------ */
+.feature-icon {
+    width: var(--feature-icon-size);
+    height: var(--feature-icon-size);
+}
+
+.feature-header-icon {
+    width: var(--header-icon-size);
+    height: var(--header-icon-size);
+    opacity: 0.2;
+}
+
+/* ------------------------------
+ * 8. Responsive adjustments
+ * ------------------------------ */
+@media (max-width: 768px) {
+    #results .col-md-3 {
+        min-width: 50%;
+    }
+    
+    .feature-bar-container {
+        margin-bottom: 0.25rem;
+    }
+}
+
+@media (max-width: 576px) {
+    #results .col-md-3 {
+        min-width: 100%;
+    }
+    
+    .bar-wrapper {
+        height: 8px;
+    }
+    
+    .custom-play-button {
+        width: 28px;
+        height: 28px;
+    }
+    
+    .custom-play-button i {
+        width: 14px;
+        height: 14px;
+    }
+}

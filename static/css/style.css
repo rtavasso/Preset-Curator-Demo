@@ -1,0 +1,147 @@
+/* Vital Curator - Custom Styles */
+
+/* Audio Selection Container */
+.audio-selection-container .input-group {
+    position: relative;
+}
+
+.audio-selection-container .custom-play-button {
+    margin-left: 8px;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.audio-selection-container .custom-play-button:not([disabled]) {
+    opacity: 1;
+}
+
+.audio-selection-container .custom-play-button[disabled] {
+    cursor: not-allowed;
+}
+
+/* Feature Slider Weights */
+.weight-indicator {
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: 0.5rem;
+}
+
+.weight-positive {
+    color: #28a745;
+}
+
+.weight-negative {
+    color: #dc3545;
+}
+
+/* Feature Comparison Bars */
+.bar-wrapper {
+    height: 8px;
+    background-color: #e9ecef;
+    border-radius: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.bar-wrapper::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    bottom: 0;
+    width: 2px;
+    background-color: rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.progress-bar {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+/* Feature Delta Styling */
+.delta-value {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Custom Audio Player */
+.custom-audio-player {
+    display: inline-flex;
+    align-items: center;
+}
+
+.custom-play-button {
+    width: 36px;
+    height: 36px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.selected-player .custom-play-button {
+    width: 48px;
+    height: 48px;
+}
+
+/* Reranking indicator */
+#results.reranking {
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    position: relative;
+}
+
+#results.reranking::after {
+    content: "Reranking...";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    z-index: 10;
+}
+
+/* Responsive feature comparison */
+.feature-bar-container {
+    margin-bottom: 0.5rem;
+}
+
+.feature-label {
+    font-size: 0.85rem;
+    margin-bottom: 0.2rem;
+}
+
+/* Card customizations */
+.card-body {
+    padding: 1rem;
+}
+
+/* Animations for fast comparison */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.card {
+    animation: fadeIn 0.3s ease;
+}
+
+/* Auto-comparison feedback */
+.auto-comparing {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-top: 0.5rem;
+    font-style: italic;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+} 
