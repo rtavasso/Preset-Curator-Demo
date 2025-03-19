@@ -15,6 +15,8 @@ import numpy as np
 import time
 from feature_database import FeatureDatabase
 import datetime
+import threading
+import requests
 
 # Load environment variables from .env file
 load_dotenv()
@@ -58,6 +60,66 @@ FEATURES_KEY = 'features.json'
 _features_cache = None
 _features_cache_time = 0
 CACHE_TIMEOUT = 300  # 5 minutes cache timeout
+
+
+# Heartbeat functionality
+def heartbeat_task(interval_minutes=5):
+    """
+    Background task to periodically hit the health endpoint.
+    
+    Args:
+        interval_minutes: How often to ping in minutes
+    """
+    logger.info(f"Starting heartbeat service. Will ping health endpoint every {interval_minutes} minutes")
+    interval_seconds = interval_minutes * 60
+    
+    # Use a separate logger for heartbeat messages
+    heartbeat_logger = logging.getLogger("heartbeat")
+
+    # Get base URL from environment or default to localhost
+    base_url = os.environ.get("APP_BASE_URL", "http://localhost:10000")
+    health_url = f"{base_url}/health"
+    
+    while True:
+        try:
+            heartbeat_logger.info(f"Pinging health endpoint: {health_url}")
+            response = requests.get(health_url, timeout=10)
+            
+            if response.status_code == 200:
+                heartbeat_logger.info(f"Health check successful (Response time: {response.elapsed.total_seconds():.2f}s)")
+            else:
+                heartbeat_logger.warning(f"Health check received unexpected status code: {response.status_code}")
+                
+        except requests.RequestException as e:
+            heartbeat_logger.error(f"Failed to connect to health endpoint: {str(e)}")
+        except Exception as e:
+            heartbeat_logger.error(f"Unexpected error in heartbeat: {str(e)}")
+            
+        # Sleep until next interval
+        time.sleep(interval_seconds)
+
+
+def start_heartbeat(app):
+    """
+    Start the heartbeat background thread if enabled.
+    """
+    # Only start heartbeat if explicitly enabled via environment variable
+    heartbeat_enabled = os.environ.get("ENABLE_HEARTBEAT", "false").lower() == "true"
+    
+    if heartbeat_enabled:
+        # Get interval from environment variable or use default (14 minutes)
+        interval = int(os.environ.get("HEARTBEAT_INTERVAL_MINUTES", 14))
+        
+        # Start heartbeat in a daemon thread
+        logger.info(f"Starting heartbeat thread with {interval} minute interval")
+        heartbeat_thread = threading.Thread(
+            target=heartbeat_task,
+            args=(interval,),
+            daemon=True  # Thread will exit when main app exits
+        )
+        heartbeat_thread.start()
+    else:
+        logger.info("Heartbeat service is disabled. Set ENABLE_HEARTBEAT=true to enable.")
 
 
 @lru_cache(maxsize=1)
@@ -168,6 +230,9 @@ def create_app() -> Flask:
     # Initialize the feature database during app creation
     with app.app_context():
         initialize_feature_database(retry_count=2)
+        
+        # Start the heartbeat background thread
+        start_heartbeat(app)
     
     return app
 
